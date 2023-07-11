@@ -15,7 +15,7 @@ return(
             let filteredObj = contacts.filter(obj => obj.name.toLowerCase().includes(searchText));
             setFilteredContacts(filteredObj); 
         }else {
-            setFilteredContacts(contacts); 
+            setFilteredContacts(contacts);
         }
         
     }} ></input>

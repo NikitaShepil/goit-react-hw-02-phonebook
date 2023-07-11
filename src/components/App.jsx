@@ -1,4 +1,4 @@
-import { PhoneBook } from 'components/phonebook/phonebook'
+import PhoneBook from 'components/phonebook/phonebook'
 import { Contacts } from 'components/contacts/contscts'
 import React, { Component } from 'react';
 import css from './app.module.css'
@@ -7,10 +7,7 @@ class App extends Component {
   
   state = {
     contacts: [],
-    name: '',
-    number: '',
-    
-    
+  filter:''
   }
   handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,6 +25,30 @@ class App extends Component {
       this.setState({ [name]: value });
     }
   };
+
+createContact = (data) => {
+console.log(data)
+
+const existingContact = this.state.contacts.find(contact => contact.name === data.name);
+
+    if (existingContact) {
+      alert('Контакт з таким ім\'ям уже існує');
+      return;
+    }
+
+    console.log(this.state);
+
+    const contact = {
+      id: Math.random().toString(),
+      name: data.name,
+      number: data.number
+    };
+    
+    this.setState((prevState) => ({
+      contacts: [...prevState.contacts,contact],
+    }
+    ));
+}
 
   formatNumber = (value) => {
     // Видаляємо всі нецифрові символи зі значення
@@ -74,7 +95,7 @@ class App extends Component {
     return (
       <>
       <h1 className={css.phone_book_title}>Phonebook</h1>
-      <PhoneBook name={this.state.name} tel={this.state.number} handleChange={this.handleChange} handleSubmit={this.handleSubmit}/>
+      <PhoneBook createContact={this.createContact}/>
       <h2 className={css.phone_book_title}>Contacts</h2>
       <Contacts contacts={this.state.contacts} onDelete={this.handleDeleteContact}/>
       </>
